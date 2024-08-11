@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+package chat;
+
+service ChatService {
+  rpc CreateChannel (ChannelRequest) returns (ChannelResponse);
+  rpc DeleteChannel (ChannelRequest) returns (ChannelResponse);
+  rpc ListChannels (Empty) returns (ChannelList);
+  rpc Chat (stream ChatMessage) returns (stream ChatMessage);
+}
+
+message ChannelRequest {
+  string channel_name = 1;
+  ChannelType channel_type = 2;  // Adicionando tipo do canal
+}
+
+message ChannelResponse {
+  string message = 1;
+}
+
+message Empty {}
+
+message ChannelInfo {
+  string channel_name = 1;
+  ChannelType channel_type = 2;
+}
+
+message ChannelList {
+  repeated ChannelInfo channels = 1;
+}
+
+message ChatMessage {
+  string name = 1;
+  string message = 2;
+  string channel_name = 3;
+}
+
+enum ChannelType {
+  SIMPLE = 0;
+  MULTIPLE = 1;
+}
